@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<main class="section__main">
+
+
+    @using (Html.BeginForm(
+        "ActionName", "ControllerName",
+            new { ReturnUrl = ViewBag.ReturnUrl },
+            FormMethod.Post, new { @class = "form-password" })) {
+        <div class="group-form">
+            @Html.Label("password", "Contraseña", new { @class = "text-left" })
+            @Html.Password("password", "", new {@class = "text-custom", placeholder="Ingrese la contraseña"})
+            <input class="btn-send-custom" type="submit" />
+        </div>
+        <div class="text-center validation">
+            <p>Validaciones</p>
+            <div class="group_item">
+                <div class="item">
+                    <input type="checkbox" name="name" value="Al menos un caracter" />
+
+                    <label>Al menos un caracter</label>
+                </div>
+                <div class="item">
+                    <input type="checkbox" name="name" value="Al menos un caracter" />
+
+                    <label>Al menos un caracter</label>
+                </div>
+                <div class="item">
+                    <input type="checkbox" name="name" class="checkmark"  />
+
+                    <label>Al menos un caracter</label>
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+
+</main>

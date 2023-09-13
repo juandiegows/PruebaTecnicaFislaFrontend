@@ -1,0 +1,102 @@
+﻿/* Set padding to keep content from hitting the edges */
+.body-content {
+    margin-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+
+
+/* Mis estilos */
+
+.section__main {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-password {
+    background-color: white;
+    width: 50vw;
+    height: 50vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2vw;
+    -webkit-box-shadow: 0px 0px 42px -10px rgba(62,169,240,1);
+    -moz-box-shadow: 0px 0px 42px -10px rgba(62,169,240,1);
+    box-shadow: 0px 0px 42px -10px rgba(62,169,240,1);
+    font-size: 20px;
+}
+
+.group-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1vw;
+    text-align: center;
+    padding: 2vw;
+}
+
+.text-custom {
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #2f679b;
+    padding-bottom: 5px;
+}
+
+@property --gradient-start {
+    syntax: "<color>";
+    initial-value: transparent;
+    inherits: false;
+}
+
+@property --gradient-end {
+    syntax: "<color>";
+    initial-value: transparent;
+    inherits: false;
+}
+
+.btn-send-custom {
+    --gradient-start: rgba(29,143,202,1);
+    --gradient-end: rgba(47,103,155,1);
+    border: none;
+    outline: none;
+    transition: 0.5s --gradient-start, 1s --gradient-end;
+    background: linear-gradient( to right, var(--gradient-start), var(--gradient-end) );
+    color: white;
+    padding: 10px 5px;
+    border-radius: 50px;
+}
+
+    .btn-send-custom:hover {
+        --gradient-start: rgba(47,103,155,1);
+        --gradient-end: rgba(29,143,202,1);
+    }
+.validation {
+    color: white;
+    background-color: #2f679b;
+    padding: 2vw;
+    font-size: 16px;
+}
+.group_item {
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+}
+/*Generales*/
+.text-left {
+    text-align: left;
+}
+
+.text-center {
+    text-align: center;
+}
+
