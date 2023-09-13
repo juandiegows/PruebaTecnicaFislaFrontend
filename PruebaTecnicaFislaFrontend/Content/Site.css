@@ -91,6 +91,19 @@
     align-items: start;
     flex-direction: column;
 }
+
+.container__password {
+    position: relative;
+}
+    .container__password #password {
+       width: 100%;
+    }
+    .container__password  .show {
+        position:absolute;
+        right: 0;
+        top:0;
+        padding-right: 5px;
+    }
 /*Generales*/
 .text-left {
     text-align: left;
