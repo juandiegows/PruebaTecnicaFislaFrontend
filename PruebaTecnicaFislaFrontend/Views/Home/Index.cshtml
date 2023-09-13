@@ -20,32 +20,52 @@
             </div>
 
             <button type="button" id="validateButton" class="btn-send-custom">Validar contraseña</button>
+            <div id="validationResult"></div>
         </div>
         <div class="text-center validation">
-            <p>Validaciones</p>
-            <div class="group_item">
-                <div class="item">
-                    <input type="checkbox" name="name" value="Al menos un caracter" />
-
-                    <label>Al menos un caracter</label>
-                </div>
-                <div class="item">
-                    <input type="checkbox" name="name" value="Al menos un caracter" />
-
-                    <label>Al menos un caracter</label>
-                </div>
-                <div class="item">
-                    <input type="checkbox" name="name" class="checkmark" />
-
-                    <label>Al menos un caracter</label>
-                </div>
+            <p class="title">Validaciones</p>
+            <div class="group_item" id="validations">
+          
             </div>
         </div>
     }
     @section Scripts {
 
         <script>
+            function validar () {
+                var password = $('#password').val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Home/IsValid',
+                    data: { password: password },
+                    success: function (result) {
+                        $('#validationResult').text(result.IsValid ? 'Contraseña válida' : 'Contraseña no válida');
+                        var validationsDiv = $('#validations');
+                        alert(result.IsValid ? 'Contraseña válida' : 'Contraseña no válida');
+                        validationsDiv.empty();
+                        for (var i = 0; i < result.Validations.length; i++) {
+
+                            var validation = result.Validations[i];
+                            var validationItem = $('<div class="item">');
+
+                            var checkbox = $('<input type="checkbox" name="name" ' + (validation.IsValid ? "checked" : "") + ' >');
+                            var label = $('<label>').text(validation.Name);
+
+                            validationItem.append(checkbox);
+                            validationItem.append(label);
+                            validationsDiv.append(validationItem);
+                        }
+
+                    },
+                    error: function () {
+                        alert('Ocurrió un error al realizar la llamada AJAX');
+                    }
+                });
+                }
             $(document).ready(function () {
+                $('#validateButton').click(validar);
+                $('#password').on('input', validar);
                 $("#show").click(function () {
                     var passwordInput = $("#password");
 

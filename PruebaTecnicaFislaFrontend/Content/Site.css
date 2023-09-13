@@ -25,9 +25,10 @@
 
 .form-password {
     background-color: white;
-    width: 50vw;
+    width: 60vw;
     height: 50vh;
     display: grid;
+
     grid-template-columns: 1fr 1fr;
     grid-gap: 2vw;
     -webkit-box-shadow: 0px 0px 42px -10px rgba(62,169,240,1);
@@ -83,15 +84,51 @@
 .validation {
     color: white;
     background-color: #2f679b;
-    padding: 2vw;
+    padding: 0;
     font-size: 16px;
+    max-height: 50vh;
+    overflow: auto;
+}
+    .validation::-webkit-scrollbar {
+        width: 12px; /* Ancho del scroll vertical */
+        height: 12px; /* Altura del scroll horizontal */
+    }
+    .validation::-webkit-scrollbar-thumb {
+        background-color: #007bff; 
+        border-radius: 6px;
+    }
+
+    .validation::-webkit-scrollbar-track {
+        background-color: #2f679b;
+    }
+
+    .validation::-webkit-scrollbar-corner {
+        background-color: transparent;
+    }
+
+.title {
+    position:sticky;
+    top:0;
+    width:100%;
+    background-color:#333;
+    padding: 10px;
+    
 }
 .group_item {
     display: flex;
     align-items: start;
     flex-direction: column;
+    padding: 0  2vw 2vw 2vw;
 }
-
+.item {
+    display: flex;
+    align-items: center;
+    gap:10px;
+    margin-top: 10px;
+}
+.item label{
+    text-align:start;
+}
 .container__password {
     position: relative;
 }
