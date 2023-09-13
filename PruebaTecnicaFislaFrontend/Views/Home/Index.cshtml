@@ -11,8 +11,9 @@
             FormMethod.Post, new { @class = "form-password" })) {
         <div class="group-form">
             @Html.Label("password", "Contraseña", new { @class = "text-left" })
-            @Html.Password("password", "", new {@class = "text-custom", placeholder="Ingrese la contraseña"})
-            <input class="btn-send-custom" type="submit" />
+            @Html.Password("password", "", new { @class = "text-custom", placeholder = "Ingrese la contraseña" })
+          
+            <button type="button" id="validateButton" class="btn-send-custom" >Validar contraseña</button>
         </div>
         <div class="text-center validation">
             <p>Validaciones</p>
