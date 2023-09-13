@@ -11,18 +11,22 @@ namespace PruebaTecnicaFislaFrontend.Validation {
         public Validator() { }
         public static ResponseCustom getValidation(string pass) {
             var response = new ResponseCustom() {
-               Validations = new List<Request.Validation>()
+                Validations = new List<Request.Validation>()
             };
             var rules = PasswordValidationRules.getInstancia();
             response.IsValid = true;
             int count = 0;
             var valid = true;
+            bool errorCritico = false;
             //maxima
             if (rules.RequireMaxLength) {
-            
+
 
                 if (pass.Length > rules.MaxLength) {
                     valid = response.IsValid = false;
+                }
+                if (!valid) {
+                    errorCritico = true;
                 }
                 response.Validations.Add(new Request.Validation() {
                     IsValid = valid,
@@ -38,15 +42,18 @@ namespace PruebaTecnicaFislaFrontend.Validation {
                 if (pass.Length < rules.MinLength) {
                     valid = response.IsValid = false;
                 }
+                if (!valid) {
+                    errorCritico = true;
+                }
                 response.Validations.Add(new Request.Validation() {
                     IsValid = valid,
                     Name = $"Longitud mínima {rules.MinLength}  caracteres permitidos"
                 });
             }
-           
 
-    
-         
+
+
+
 
             //caracteres especiales
             valid = true;
@@ -55,7 +62,10 @@ namespace PruebaTecnicaFislaFrontend.Validation {
                 if (!ContainsSpecialCharacter(pass)) {
                     valid = response.IsValid = false;
                 }
-                Count(valid, count);
+
+                if (valid) {
+                    count++;
+                }
                 response.Validations.Add(new Request.Validation() {
                     IsValid = valid,
                     Name = $"La contraseña debe de contener al menos 1 carácter Especial"
@@ -65,13 +75,16 @@ namespace PruebaTecnicaFislaFrontend.Validation {
 
 
             //caracteres es numero
-         
 
+            valid = true;
             if (rules.RequireNumeric) {
                 if (!ContainsNumber(pass)) {
                     valid = response.IsValid = false;
                 }
-                Count(valid, count);
+
+                if (valid) {
+                    count++;
+                }
                 response.Validations.Add(new Request.Validation() {
                     IsValid = valid,
                     Name = $" la contraseña debe de contener al menos 1 carácter numérico\r"
@@ -79,65 +92,103 @@ namespace PruebaTecnicaFislaFrontend.Validation {
             }
             //caracteres es numero
 
-
+            valid = true;
             if (rules.RequireUppercase) {
                 if (!ContainsUpper(pass)) {
                     valid = response.IsValid = false;
                 }
 
-                Count(valid, count);
+
+                if (valid) {
+                    count++;
+                }
                 response.Validations.Add(new Request.Validation() {
                     IsValid = valid,
                     Name = $" la contraseña debe de contener al menos 1 carácter en mayúsculas\r"
                 });
             }
-
+            valid = true;
             if (rules.RequireLowercase) {
                 if (!ContainsLower(pass)) {
                     valid = response.IsValid = false;
                 }
-            
-                Count(valid, count);
+
+                if (valid) {
+                    count++;
+                }
                 response.Validations.Add(new Request.Validation() {
                     IsValid = valid,
                     Name = $" la contraseña debe de contener al menos 1 carácter en minúsculas\r"
                 });
             }
 
-            
-                valid = rules.AllowWhitespace ? true : !ContainsLower(pass);
-              
-                response.Validations.Add(new Request.Validation() {
-                    IsValid = valid,
-                    Name = $"Contener espacios en blanco\r"
-                });
-            if(count >= rules.MinGroupCount) {
-                response.IsValid = true;
+
+            valid = rules.AllowWhitespace ? true : !ContainsWhiteSpace(pass);
+            if (!valid) {
+                errorCritico = true;
             }
+            response.Validations.Add(new Request.Validation() {
+                IsValid = valid,
+                Name = $"Contener espacios en blanco\r"
+            });
+        
+            valid = true;
+            if (count >= rules.MinGroupCount) {
+                response.IsValid = count >= rules.MinGroupCount;
+                response.Validations.Add(new Request.Validation() {
+                    IsValid = true,
+                    Name = $"La contraseña debe de contener al menos {rules.MinGroupCount} grupos de los cuatro (Especiales, numero, mayúsculas, minúsculas)\r\r"
+                });
+            }else {
+                response.Validations.Add(new Request.Validation() {
+                    IsValid = false,
+                    Name = $"La contraseña debe de contener al menos {rules.MinGroupCount} grupos de los cuatro (Especiales, numero, mayúsculas, minúsculas)\r\r"
+                });
+            }
+            if (errorCritico) {
+                response.IsValid = false;
+                return response;
+            }
+
             return response;
         }
-        public static void Count(bool valid, int num) {
-            if(valid) {
-                num++;
-            }
-        
-        }
+      
         private static bool ContainsSpecialCharacter(string pass) {
             string specialCharacters = "!@#$%^&*()_+-=[]{}|;:,.<>?/";
             return pass.Any(c => specialCharacters.Contains(c));
         }
         private static bool ContainsNumber(string pass) {
-            return pass.Any(c => Char.IsDigit(c));
+            foreach (var c in pass) {
+                if (Char.IsDigit(c)) {
+                    return true;
+                }
+            }
+            return false;
         }
         private static bool ContainsUpper(string pass) {
-            return pass.Any(c => Char.IsUpper(c));
+            foreach (var c in pass) {
+                if (Char.IsUpper(c)) {
+                    return true;
+                }
+            }
+            return false;
         }
         private static bool ContainsLower(string pass) {
-            return pass.Any(c => Char.IsLower(c));
+            foreach (var c in pass) {
+                if (Char.IsLower(c)) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private static bool ContainsWhiteSpace(string pass) {
-            return pass.Any(c => Char.IsWhiteSpace(c));
+            foreach (var c in pass) {
+                if (Char.IsWhiteSpace(c)) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
